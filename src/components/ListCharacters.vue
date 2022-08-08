@@ -1,7 +1,10 @@
 <template>
   <section>
+    <div v-if="showModal === true">
+     <ModalCharacter :handleCloseModal='closeModalOnX' :handleCloseModalOutside='CloseModalOnTarget' :id='id'/>
+    </div>
     <div class="containerCharacters">
-        <div v-for="characters in api.results" :key="characters.id" @click="changeModal" class="containerInfo">    
+        <div v-for="characters in api.results" :key="characters.id" @click="handleSetId(characters.id)" class="containerInfo">    
           <figure>
             <img class="characters" :src="characters.image" alt="">
           </figure>  
@@ -10,12 +13,11 @@
             <p>{{characters.status}}</p>
             <p>{{characters.species}}</p>
             <p>{{characters.gender}}</p>
-          </div>  
+          </div> 
+          
         </div>         
     </div>
-    <div v-if="showModal === true">
-     <ModalCharacter/>
-    </div>
+    
   </section>
 </template>
 
@@ -27,7 +29,8 @@ export default {
   data(){
     return{
       api: [],
-      showModal: false
+      showModal: false,
+      id:''
     }
   },
   components:{
@@ -35,10 +38,19 @@ export default {
   },
    methods:{
     getCharacters(){
-    axiosInstance.get('character').then(response => (this.api = response.data))
+    axiosInstance.get('/character').then(response => (this.api = response.data))
     },
-    changeModal(){
-      this.showModal = true
+    handleSetId(id){
+     this.id = id; 
+     this.showModal = true;
+    },
+    closeModalOnX(){
+      this.showModal = false;
+    },
+    CloseModalOnTarget({target, currentTarget}){
+      if(target === currentTarget){
+        this.showModal = false;
+      }
     }
   },
 created(){
