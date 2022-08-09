@@ -11,7 +11,6 @@
           <p>The Location are: {{character.location?.name}}</p>
         </div>        
       </div>
-      
     </div>
   </section>
 </template>
@@ -26,10 +25,10 @@ export default {
     }
   },
   methods:{
-      fetchData(id){
-         axiosInstance.get(`/character/${id}`).then(r=>{
-        this.character=r.data})
-      }
+    fetchData(id){
+       axiosInstance.get(`/character/${id}`).then(r=>{
+      this.character=r.data})
+    },
   },
     watch:{
     id:{
@@ -40,7 +39,6 @@ export default {
   },
     created(){
       this.fetchData(this.id)
-
     }
   }
 
