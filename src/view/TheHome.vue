@@ -1,6 +1,5 @@
 <template>
   <section>
-    <h1>home</h1>
     <ListCharacter/>
   </section>
 </template>

@@ -1,6 +1,6 @@
 <template>
   <section class="hello">
-    <h1>Rick Morty</h1>
+    <img class="logoImg" src="@/Image/logo.png"/>
   </section>
 </template>
 
@@ -15,4 +15,9 @@ export default {
 </script>
 
 <style scoped>
+.logoImg{
+  width: 200px;
+  display: flex;
+  margin: 0 auto 0;
+}
 </style>

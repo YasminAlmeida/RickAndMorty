@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import TheHome from '@/view/TheHome.vue';
+import ListCharacters from '@/components/ListCharacters.vue';
+import PaginationtheCharacter from '@/components/PaginationtheCharacter.vue';
 Vue.use(Router);
 export default new Router({
   mode: 'history',
@@ -11,14 +13,20 @@ export default new Router({
       name: 'TheHome',
       component: TheHome,
       props: '',
-      // children: [
-      //   {
-      //     path: '/:aula',
-      //     name: 'aula',
-      //     component: Aula,
-      //     props: true,
-      //   },
-      // ]
+    },
+    {
+      path: '/ListCharacters',
+      name: 'ListCharacters',
+      component: ListCharacters,
+      props: '',
+      children: [
+        {
+          path: '/:PaginationtheCharacter',
+          name: 'PaginationtheCharacter',
+          component: PaginationtheCharacter,
+          props: true,
+        },
+      ],
     },
   ],
 });

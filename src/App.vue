@@ -1,6 +1,6 @@
 <template>
   <div class="background">
-    <TheHeader msg="Welcome to Your Vue.js App"/>
+    <TheHeader/>
     <TheHome/>
   </div>
 </template>

@@ -14,10 +14,18 @@
             <p>{{characters.species}}</p>
             <p>{{characters.gender}}</p>
           </div> 
-          
         </div>         
     </div>
-    
+    <div class="Containerbutton">
+      <div v-if="this.page == this.totalPages || this.page < 1" >
+        <button disabled>Anterior</button>
+        <button @click="this.page = this.page+1" >próximo</button>
+      </div>      
+      <div v-else>
+        <button @click="this.page = this.page-1">←</button>
+        <button @click="this.page = this.page+1" >→</button>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -30,7 +38,9 @@ export default {
     return{
       api: [],
       showModal: false,
-      id:''
+      id:'',
+      page:1,
+      totalPages: 0,
     }
   },
   components:{
@@ -38,7 +48,7 @@ export default {
   },
    methods:{
     getCharacters(){
-    axiosInstance.get('/character').then(response => (this.api = response.data))
+    axiosInstance.get(`/character/?page=${this.page}`).then(response => (this.api = response.data, this.totalPages = response.data.info.pages));
     },
     handleSetId(id){
      this.id = id; 
@@ -50,6 +60,17 @@ export default {
     CloseModalOnTarget({target, currentTarget}){
       if(target === currentTarget){
         this.showModal = false;
+      }
+    },
+    scrollToTop(){
+      window.scrollTo(0,0);
+    }
+  },
+   watch:{
+    page:{
+      handler(){
+        this.getCharacters();
+        this.scrollToTop()
       }
     }
   },
@@ -69,6 +90,28 @@ section{
   grid-template-columns: 1fr;
   grid-gap: 20px;
   margin: 50px auto 0 auto;
+}
+.Containerbutton{
+  display: flex;
+  align-items: center;
+  grid-template-columns: 1fr;    
+  justify-content: space-evenly;
+}
+.Containerbutton div{
+  width: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.Containerbutton button{
+  border: none;
+  background: #fff;
+  padding: 10px;
+  box-shadow: rgba(0, 0, 0.1, 0.2) 0px 0px 1rem; 
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 2rem;
+  border-radius: 4px;
 }
 ul{
   display: flex;
