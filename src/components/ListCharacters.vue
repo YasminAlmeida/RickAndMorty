@@ -1,5 +1,7 @@
 <template>
   <section>
+    <input nome="search" id="search" class="search" v-model="search" type="text" @change="(e)=>this.name = e.target.value">
+    {{search}}
     <div v-if="showModal === true">
      <ModalCharacter :handleCloseModal='closeModalOnX' :handleCloseModalOutside='CloseModalOnTarget' :id='id'/>
     </div>
@@ -18,8 +20,8 @@
     </div>
     <div class="Containerbutton">
       <div v-if="this.page == this.totalPages || this.page < 1" >
-        <button disabled>Anterior</button>
-        <button @click="this.page = this.page+1" >próximo</button>
+        <button disabled>←</button>
+        <button @click="this.page = this.page+1" >→</button>
       </div>      
       <div v-else>
         <button @click="this.page = this.page-1">←</button>
@@ -41,14 +43,17 @@ export default {
       id:'',
       page:1,
       totalPages: 0,
+      search:"",
+      name: ""
     }
   },
   components:{
     ModalCharacter
   },
-   methods:{
+  methods:{
     getCharacters(){
-    axiosInstance.get(`/character/?page=${this.page}`).then(response => (this.api = response.data, this.totalPages = response.data.info.pages));
+    axiosInstance.get(`/character/?page=${this.page}&name=${this.name}`)
+    .then(response => (this.api = response.data, this.totalPages = response.data.info.pages))
     },
     handleSetId(id){
      this.id = id; 
@@ -63,24 +68,42 @@ export default {
       }
     },
     scrollToTop(){
-      window.scrollTo(0,0);
-    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   },
-   watch:{
+  },
+  watch:{
     page:{
       handler(){
         this.getCharacters();
         this.scrollToTop()
       }
+    },
+    name:{
+       handler(){
+        this.getCharacters();
+      }
     }
   },
-created(){
-  this.getCharacters();
-}
+  created(){
+    this.getCharacters();
+  }
 }
 </script>
 
 <style scoped>
+.search{
+  display: grid;
+  margin: 0 auto;
+  width: 600px;
+  height: 50px;
+  border: none;
+  box-shadow: rgba(0, 0, 0.1, 0.2) 0px 0px 1rem; 
+  border-radius: 4px;
+}
+.search:focus,
+.search:hover{
+  transform: scale(1.02);
+}
 section{
   display: grid;
   margin: 0 auto;
@@ -125,6 +148,7 @@ ul{
   border-radius: 4px;
   color: #000;
   display: flex;
+  cursor: pointer;
 }
 .extraInfo{
   display: flex;
@@ -138,12 +162,17 @@ ul{
 .name{
   font-size: 1.9rem;
 }
-@media screen {
-  
+@media (max-width:1500px){
+  .search{
+    width: 500px;
+  }
 }
 @media (max-width:1050px){
   .containerInfo{
-  width: 400px;
+    max-width: 500px;
+  }
+  .search{
+    max-width: 400px;
   }
 }
 @media (max-width:900px){
@@ -151,6 +180,9 @@ ul{
     flex-direction: column;
     box-shadow:none;  
     align-items: center;
+  }
+  .search{
+    max-width: 250px;
   }
   .extraInfo{
     background: #fff;

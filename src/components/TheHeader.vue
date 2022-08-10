@@ -16,7 +16,7 @@ export default {
 
 <style scoped>
 .logoImg{
-  width: 200px;
+  max-width: 200px;
   display: flex;
   margin: 0 auto 0;
 }

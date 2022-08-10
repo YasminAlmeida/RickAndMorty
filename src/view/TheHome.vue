@@ -18,5 +18,9 @@ export default {
 <style>
 section{
   color: #80b918;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  grid-template-columns: 1fr;
 }
 </style>
