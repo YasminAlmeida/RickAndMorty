@@ -16,7 +16,7 @@
           <option value="species">Species</option>
           <option value="gender">Gender</option>
         </select>
-        <button @click="submitInput" class="btn">buscar</button>
+        <button @click="submitInput" class="btn">Search</button>
       </div>
       <div class="filterActive">
         <h5>Filters Active:</h5>
